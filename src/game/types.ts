@@ -18,6 +18,7 @@ export interface GridDimensions {
 
 export interface Snake {
   readonly direction: Direction;
+  readonly nextDirection: Direction;
   readonly segments: readonly SnakeSegment[];
 }
 

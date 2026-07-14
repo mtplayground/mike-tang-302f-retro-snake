@@ -1,4 +1,5 @@
 export * from './config';
+export * from './input';
 export * from './loop';
 export * from './state';
 export * from './types';

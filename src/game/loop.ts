@@ -6,12 +6,18 @@ export interface TickResult {
 }
 
 export function advanceGameTick(state: GameState): TickResult {
+  const movementDirection = state.snake.nextDirection;
   const nextHead = getNextHeadPosition(
     getSnakeHead(state.snake),
-    state.snake.direction,
+    movementDirection,
   );
   const ateFood = state.food !== null && positionsEqual(nextHead, state.food);
-  const nextSnake = advanceSnake(state.snake, nextHead, ateFood);
+  const nextSnake = advanceSnake(
+    state.snake,
+    nextHead,
+    ateFood,
+    movementDirection,
+  );
 
   return {
     ateFood,
@@ -27,11 +33,14 @@ export function advanceSnake(
   snake: Snake,
   nextHead: Position,
   shouldGrow: boolean,
+  direction: Direction = snake.nextDirection,
 ): Snake {
   const nextSegments = [nextHead, ...snake.segments];
 
   return {
     ...snake,
+    direction,
+    nextDirection: direction,
     segments: shouldGrow
       ? nextSegments
       : nextSegments.slice(0, snake.segments.length),
