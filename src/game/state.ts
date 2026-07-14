@@ -18,6 +18,7 @@ export function createInitialGameState(): GameState {
 export function createInitialSnake(): Snake {
   return {
     direction: INITIAL_DIRECTION,
+    nextDirection: INITIAL_DIRECTION,
     segments: createInitialSnakeSegments(
       GRID_DIMENSIONS,
       INITIAL_SNAKE_HEAD,
