@@ -9,6 +9,8 @@ export interface Position {
 
 export type SnakeSegment = Position;
 
+export type Food = Position;
+
 export interface GridDimensions {
   readonly rows: number;
   readonly columns: number;
@@ -21,6 +23,7 @@ export interface Snake {
 
 export interface GameState {
   readonly grid: GridDimensions;
+  readonly food: Food | null;
   readonly snake: Snake;
   readonly status: GameStatus;
 }

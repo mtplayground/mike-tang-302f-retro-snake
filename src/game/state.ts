@@ -9,6 +9,7 @@ import type { GameState, GridDimensions, Position, Snake } from './types';
 export function createInitialGameState(): GameState {
   return {
     grid: { ...GRID_DIMENSIONS },
+    food: null,
     snake: createInitialSnake(),
     status: 'ready',
   };
