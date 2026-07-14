@@ -1,0 +1,56 @@
+Architecture plan for the 19-issue implementation sequence
+
+Project shape
+- Use React + TypeScript + Vite with Tailwind CSS for a self-hosted static bundle.
+- Keep game logic framework-independent so movement, spawning, collision, scoring, and restart behavior can be tested without React or Canvas.
+- Render gameplay on a single Canvas element, with React responsible for shell UI, score, overlays, lifecycle wiring, and input registration.
+
+Proposed module structure
+- src/main.tsx: React entrypoint.
+- src/App.tsx: top-level game screen composition.
+- src/styles.css: Tailwind directives, arcade font setup, CRT/scanline utilities, and app-level layout styles.
+- src/game/types.ts: shared types such as Direction, Position, Snake, Food, GameStatus, GameState, GridConfig, and GameAction.
+- src/game/config.ts: grid size, tick speed, initial snake, scoring values, and rendering constants.
+- src/game/state.ts: createInitialState, resetGame, deriveNextState, and immutable state helpers.
+- src/game/movement.ts: direction validation, next-head calculation, snake body growth/trimming.
+- src/game/food.ts: free-cell lookup and food spawning.
+- src/game/collision.ts: wall and self-collision detection.
+- src/game/score.ts: score updates and optional high-score helpers.
+- src/game/loop.ts: requestAnimationFrame or interval-based tick controller used by React.
+- src/hooks/useKeyboardControls.ts: keyboard input handling and opposite-direction prevention.
+- src/hooks/useGameEngine.ts: React bridge for state, tick loop, restart, and user input.
+- src/components/GameCanvas.tsx: Canvas element and drawing lifecycle.
+- src/components/ScoreDisplay.tsx: live score UI.
+- src/components/GameOverOverlay.tsx: end-state overlay and restart control.
+- src/render/canvasRenderer.ts: pure Canvas drawing routines for grid, snake, food, glow, and retro effects.
+- src/utils/random.ts: injectable random helper for deterministic tests.
+
+Issue dependencies
+- #1 is the project foundation for every later issue.
+- #2 should follow #1 so formatting and lint rules are available before feature work.
+- #3 depends on #1 and should establish static build assumptions early.
+- #4 defines the core types and state model required by #5 through #10 and #16.
+- #5 depends on #4.
+- #6 depends on #4 and feeds #5/#16.
+- #7 depends on #4 and is consumed by #5 and #9.
+- #8 depends on #4 and #5.
+- #9 depends on #7 and #8 enough to know when food is eaten and when the game stops.
+- #10 depends on #8 and #9.
+- #11 depends on #4 for renderable state.
+- #12 depends on #11.
+- #13 depends on #1 and can layer over #11/#12 once rendering exists.
+- #14 depends on #9.
+- #15 depends on #10.
+- #16 integrates #4 through #15.
+- #17 depends on #16 and validates the full gameplay loop.
+- #18 depends on #16 and final UI styling from #13 through #15.
+- #19 depends on #3, #17, and #18.
+
+Key design decisions
+- Store positions as row/column grid coordinates, not pixels. Convert to pixels only in the Canvas renderer.
+- Use an immutable GameState reducer-style update function so behavior is predictable and easy to test.
+- Queue at most one pending direction per tick to keep keyboard behavior responsive without allowing instant reversal into the snake body.
+- Food spawning should select from currently empty cells; if no empty cells remain, mark the game as won or complete instead of looping forever.
+- The game loop should be pausable and restartable from React, with cleanup on unmount to avoid duplicate timers.
+- Canvas drawing should clear and redraw the whole grid each frame because the board is small and this keeps rendering simple.
+- Keep deployment static-only: Vite build output should be self-contained under dist/ with no server-side route assumptions.
