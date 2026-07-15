@@ -1,3 +1,4 @@
+export * from './collision';
 export * from './config';
 export * from './food';
 export * from './input';

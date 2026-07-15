@@ -1,8 +1,10 @@
+import { detectCollision, type Collision } from './collision';
 import { spawnFood, type RandomNumberGenerator } from './food';
 import type { Direction, GameState, Position, Snake } from './types';
 
 export interface TickResult {
   readonly ateFood: boolean;
+  readonly collision: Collision | null;
   readonly state: GameState;
 }
 
@@ -14,12 +16,38 @@ export function advanceGameTick(
   state: GameState,
   options: AdvanceGameTickOptions = {},
 ): TickResult {
+  if (state.status === 'game-over') {
+    return {
+      ateFood: false,
+      collision: null,
+      state,
+    };
+  }
+
   const movementDirection = state.snake.nextDirection;
   const nextHead = getNextHeadPosition(
     getSnakeHead(state.snake),
     movementDirection,
   );
   const ateFood = state.food !== null && positionsEqual(nextHead, state.food);
+  const collision = detectCollision({
+    grid: state.grid,
+    nextHead,
+    snake: state.snake,
+    willGrow: ateFood,
+  });
+
+  if (collision !== null) {
+    return {
+      ateFood: false,
+      collision,
+      state: {
+        ...state,
+        status: 'game-over',
+      },
+    };
+  }
+
   const nextSnake = advanceSnake(
     state.snake,
     nextHead,
@@ -29,6 +57,7 @@ export function advanceGameTick(
 
   return {
     ateFood,
+    collision: null,
     state: {
       ...state,
       food: ateFood
