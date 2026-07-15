@@ -1,6 +1,9 @@
 import { GameOverOverlay, ScoreDisplay } from './components';
+import { useSnakeGame } from './hooks/useSnakeGame';
 
 export default function App() {
+  const { canvasRef, state } = useSnakeGame();
+
   return (
     <main className="min-h-screen bg-cabinet px-5 py-6 text-white sm:px-8">
       <section className="mx-auto flex min-h-[calc(100vh-3rem)] max-w-5xl flex-col gap-6">
@@ -11,21 +14,20 @@ export default function App() {
               Snake
             </h1>
           </div>
-          <ScoreDisplay score={0} />
+          <ScoreDisplay score={state.score} />
         </header>
 
         <div className="grid flex-1 place-items-center">
-          <div className="crt-screen aspect-square w-full max-w-[min(82vw,640px)] border border-phosphor/50 bg-black">
-            <div className="grid h-full w-full grid-cols-12 grid-rows-12">
-              {Array.from({ length: 144 }, (_, index) => (
-                <div
-                  className="border border-phosphor/10"
-                  key={index}
-                  aria-hidden="true"
-                />
-              ))}
-            </div>
-            <GameOverOverlay isVisible={false} score={0} />
+          <div className="crt-screen aspect-square w-full max-w-[min(82vw,480px)] border border-phosphor/50 bg-black">
+            <canvas
+              aria-label="Snake game board"
+              className="block h-full w-full"
+              ref={canvasRef}
+            />
+            <GameOverOverlay
+              isVisible={state.status === 'game-over'}
+              score={state.score}
+            />
           </div>
         </div>
       </section>
