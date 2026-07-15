@@ -1,6 +1,6 @@
 export type Direction = 'up' | 'right' | 'down' | 'left';
 
-export type GameStatus = 'ready';
+export type GameStatus = 'ready' | 'game-over';
 
 export interface Position {
   readonly row: number;
