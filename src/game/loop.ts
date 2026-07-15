@@ -1,5 +1,6 @@
 import { detectCollision, type Collision } from './collision';
 import { spawnFood, type RandomNumberGenerator } from './food';
+import { incrementScore } from './score';
 import type { Direction, GameState, Position, Snake } from './types';
 
 export interface TickResult {
@@ -63,6 +64,7 @@ export function advanceGameTick(
       food: ateFood
         ? spawnFood(state.grid, nextSnake, options.random)
         : state.food,
+      score: ateFood ? incrementScore(state.score) : state.score,
       snake: nextSnake,
     },
   };
