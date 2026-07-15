@@ -4,13 +4,23 @@ import {
   INITIAL_SNAKE_HEAD,
   INITIAL_SNAKE_LENGTH,
 } from './config';
+import { spawnFood, type RandomNumberGenerator } from './food';
 import type { GameState, GridDimensions, Position, Snake } from './types';
 
-export function createInitialGameState(): GameState {
+export interface CreateInitialGameStateOptions {
+  readonly random?: RandomNumberGenerator;
+}
+
+export function createInitialGameState(
+  options: CreateInitialGameStateOptions = {},
+): GameState {
+  const grid = { ...GRID_DIMENSIONS };
+  const snake = createInitialSnake();
+
   return {
-    grid: { ...GRID_DIMENSIONS },
-    food: null,
-    snake: createInitialSnake(),
+    grid,
+    food: spawnFood(grid, snake, options.random),
+    snake,
     status: 'ready',
   };
 }

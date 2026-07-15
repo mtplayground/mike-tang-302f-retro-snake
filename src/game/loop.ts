@@ -1,3 +1,4 @@
+import { spawnFood, type RandomNumberGenerator } from './food';
 import type { Direction, GameState, Position, Snake } from './types';
 
 export interface TickResult {
@@ -5,7 +6,14 @@ export interface TickResult {
   readonly state: GameState;
 }
 
-export function advanceGameTick(state: GameState): TickResult {
+export interface AdvanceGameTickOptions {
+  readonly random?: RandomNumberGenerator;
+}
+
+export function advanceGameTick(
+  state: GameState,
+  options: AdvanceGameTickOptions = {},
+): TickResult {
   const movementDirection = state.snake.nextDirection;
   const nextHead = getNextHeadPosition(
     getSnakeHead(state.snake),
@@ -23,7 +31,9 @@ export function advanceGameTick(state: GameState): TickResult {
     ateFood,
     state: {
       ...state,
-      food: ateFood ? null : state.food,
+      food: ateFood
+        ? spawnFood(state.grid, nextSnake, options.random)
+        : state.food,
       snake: nextSnake,
     },
   };
