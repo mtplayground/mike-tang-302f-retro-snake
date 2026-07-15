@@ -18,10 +18,13 @@ export function GameOverOverlay({
   }
 
   const formattedScore = formatFinalScore(score);
+  const announcement = `${title}. Final score ${formattedScore}. ${prompt}.`;
 
   return (
     <div
-      aria-label={title}
+      aria-atomic="true"
+      aria-label={announcement}
+      aria-live="assertive"
       aria-modal="true"
       className="absolute inset-0 z-10 grid place-items-center bg-black/80 px-4 text-center"
       role="alertdialog"
