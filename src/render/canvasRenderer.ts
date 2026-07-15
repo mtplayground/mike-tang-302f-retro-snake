@@ -217,8 +217,9 @@ function resizeCanvas(
 ): void {
   canvas.width = metrics.width;
   canvas.height = metrics.height;
-  canvas.style.width = `${metrics.width}px`;
-  canvas.style.height = `${metrics.height}px`;
+  canvas.style.aspectRatio = `${metrics.width} / ${metrics.height}`;
+  canvas.style.height = '100%';
+  canvas.style.width = '100%';
 }
 
 function getCanvasRenderingContext(

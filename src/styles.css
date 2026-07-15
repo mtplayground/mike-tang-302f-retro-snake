@@ -66,9 +66,14 @@ body {
     inset 0 0 28px rgb(124 255 107 / 10%);
 }
 
-.crt-screen > canvas,
 .crt-screen > * {
   image-rendering: pixelated;
+}
+
+.crt-screen > canvas {
+  display: block;
+  inset: 0;
+  position: absolute;
 }
 
 .crt-screen::before,
