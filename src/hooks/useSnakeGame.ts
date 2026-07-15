@@ -50,8 +50,6 @@ export function useSnakeGame({
     }
 
     renderCanvasGameState(canvas, state);
-    canvas.style.height = '100%';
-    canvas.style.width = '100%';
   }, [state]);
 
   useEffect(() => {
