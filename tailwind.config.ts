@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        arcade: ['"Press Start 2P"', 'monospace'],
+        arcade: ['var(--font-arcade)', 'monospace'],
       },
       colors: {
         cabinet: '#050712',
