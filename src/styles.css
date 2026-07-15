@@ -5,6 +5,7 @@
 :root {
   color-scheme: dark;
   background: #050712;
+  --font-arcade: 'Courier New', 'Lucida Console', Monaco, monospace;
   font-family:
     Inter,
     ui-sans-serif,
@@ -23,4 +24,80 @@ body {
 
 * {
   box-sizing: border-box;
+}
+
+.arcade-text {
+  font-family: var(--font-arcade);
+  font-weight: 700;
+  letter-spacing: 0;
+  text-shadow:
+    0 0 6px rgb(124 255 107 / 45%),
+    0 0 14px rgb(124 255 107 / 24%);
+  text-transform: uppercase;
+}
+
+.score-text {
+  font-family: var(--font-arcade);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-shadow:
+    0 0 8px rgb(124 255 107 / 55%),
+    0 0 18px rgb(124 255 107 / 28%);
+}
+
+.game-over-text {
+  color: #ff4d7d;
+  font-family: var(--font-arcade);
+  font-weight: 700;
+  letter-spacing: 0;
+  text-shadow:
+    0 0 8px rgb(255 77 125 / 64%),
+    0 0 18px rgb(255 77 125 / 34%);
+  text-transform: uppercase;
+}
+
+.crt-screen {
+  image-rendering: pixelated;
+  overflow: hidden;
+  position: relative;
+  box-shadow:
+    0 0 28px rgb(124 255 107 / 16%),
+    inset 0 0 28px rgb(124 255 107 / 10%);
+}
+
+.crt-screen > canvas,
+.crt-screen > * {
+  image-rendering: pixelated;
+}
+
+.crt-screen::before,
+.crt-screen::after {
+  content: '';
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.crt-screen::before {
+  background: repeating-linear-gradient(
+    to bottom,
+    rgb(255 255 255 / 8%) 0,
+    rgb(255 255 255 / 8%) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  mix-blend-mode: screen;
+  opacity: 0.22;
+}
+
+.crt-screen::after {
+  background: radial-gradient(
+    circle at center,
+    rgb(124 255 107 / 12%) 0,
+    rgb(124 255 107 / 5%) 42%,
+    rgb(0 0 0 / 34%) 100%
+  );
+  box-shadow: inset 0 0 34px rgb(0 0 0 / 56%);
+  opacity: 0.72;
 }
