@@ -1,3 +1,5 @@
+import { ScoreDisplay } from './components';
+
 export default function App() {
   return (
     <main className="min-h-screen bg-cabinet px-5 py-6 text-white sm:px-8">
@@ -9,10 +11,7 @@ export default function App() {
               Snake
             </h1>
           </div>
-          <div className="border border-phosphor/50 bg-black px-5 py-3 text-right">
-            <p className="arcade-text text-xs text-slate-400">Score</p>
-            <p className="score-text mt-1 text-3xl text-phosphor">0</p>
-          </div>
+          <ScoreDisplay score={0} />
         </header>
 
         <div className="grid flex-1 place-items-center">
