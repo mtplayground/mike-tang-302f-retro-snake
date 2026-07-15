@@ -1,5 +1,6 @@
 import { detectCollision, type Collision } from './collision';
 import { spawnFood, type RandomNumberGenerator } from './food';
+import { canAdvanceGameLoop } from './machine';
 import { incrementScore } from './score';
 import type { Direction, GameState, Position, Snake } from './types';
 
@@ -17,7 +18,7 @@ export function advanceGameTick(
   state: GameState,
   options: AdvanceGameTickOptions = {},
 ): TickResult {
-  if (state.status === 'game-over') {
+  if (!canAdvanceGameLoop(state)) {
     return {
       ateFood: false,
       collision: null,

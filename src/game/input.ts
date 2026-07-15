@@ -33,9 +33,14 @@ export function createKeyboardDirectionInputHandler({
       return;
     }
 
+    const state = getState();
+
+    if (state.status === 'game-over') {
+      return;
+    }
+
     event.preventDefault();
 
-    const state = getState();
     const nextState = queueDirectionForState(state, requestedDirection);
 
     if (nextState !== state) {
@@ -54,6 +59,10 @@ export function queueDirectionForState(
   state: GameState,
   direction: Direction,
 ): GameState {
+  if (state.status === 'game-over') {
+    return state;
+  }
+
   const snake = queueDirectionForSnake(state.snake, direction);
 
   if (snake === state.snake) {
