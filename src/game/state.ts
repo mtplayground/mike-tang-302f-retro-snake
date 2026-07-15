@@ -5,6 +5,7 @@ import {
   INITIAL_SNAKE_LENGTH,
 } from './config';
 import { spawnFood, type RandomNumberGenerator } from './food';
+import { createInitialScore } from './score';
 import type { GameState, GridDimensions, Position, Snake } from './types';
 
 export interface CreateInitialGameStateOptions {
@@ -20,6 +21,7 @@ export function createInitialGameState(
   return {
     grid,
     food: spawnFood(grid, snake, options.random),
+    score: createInitialScore(),
     snake,
     status: 'ready',
   };
