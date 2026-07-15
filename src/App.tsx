@@ -1,4 +1,4 @@
-import { ScoreDisplay } from './components';
+import { GameOverOverlay, ScoreDisplay } from './components';
 
 export default function App() {
   return (
@@ -25,6 +25,7 @@ export default function App() {
                 />
               ))}
             </div>
+            <GameOverOverlay isVisible={false} score={0} />
           </div>
         </div>
       </section>
