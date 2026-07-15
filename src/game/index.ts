@@ -3,6 +3,7 @@ export * from './config';
 export * from './food';
 export * from './input';
 export * from './loop';
+export * from './machine';
 export * from './score';
 export * from './state';
 export * from './types';
